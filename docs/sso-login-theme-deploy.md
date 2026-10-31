@@ -10,21 +10,23 @@ Dokumen ini memuat prosedur operasional standar (SOP) untuk rilis tema Single Si
 
 Seluruh perubahan tema telah diuji secara komprehensif pada container staging terisolasi (`sso_keycloak_staging` pada port 8081, VM 206) menggunakan akun uji khusus per required action tanpa memodifikasi akun pengguna produksi.
 
-### Matriks Verifikasi Otomatis (12/12 Lulus)
-| Pengujian | Target Standar | Hasil Staging | Status |
+### Matriks Verifikasi Otomatis Tema v2 (14/14 Lulus)
+| Pengujian | Target Standar | Hasil Staging / Verification | Status |
 |---|---|---|---|
 | **Isolasi Jaringan (Zero External Requests)** | 0 request ke pihak ketiga | 0 request eksternal terdeteksi (100% self-contained) | **LULUS** |
-| **Kontras Teks Heading (Dark)** | Rasio $\ge 4.5:1$ (WCAG AA) | **18.33:1** (`#0f0f12` vs `#fafafa`) | **LULUS** |
-| **Kontras Teks Muted (Dark)** | Rasio $\ge 4.5:1$ (WCAG AA) | **7.47:1** (`#0f0f12` vs `#a1a1aa`) | **LULUS** |
-| **Kontras Tombol Submit (Dark)** | Rasio $\ge 4.5:1$ (WCAG AA) | **4.83:1** (`#dc2626` vs `#ffffff`) | **LULUS** |
-| **Kontras Teks Heading (Light)** | Rasio $\ge 4.5:1$ (WCAG AA) | **19.90:1** (`#ffffff` vs `#09090b`) | **LULUS** |
-| **Kontras Teks Muted (Light)** | Rasio $\ge 4.5:1$ (WCAG AA) | **4.83:1** (`#ffffff` vs `#71717a`) | **LULUS** |
-| **Kontras Tombol Submit (Light)** | Rasio $\ge 4.5:1$ (WCAG AA) | **4.83:1** (`#dc2626` vs `#ffffff`) | **LULUS** |
-| **Responsivitas Mobile (360×640)** | Bebas overflow horizontal | `scrollWidth` = 360, `clientWidth` = 360 | **LULUS** |
-| **Responsivitas Tablet (768×1024)** | Bebas overflow horizontal | `scrollWidth` = 768, `clientWidth` = 768 | **LULUS** |
-| **Responsivitas Desktop (1440×900)** | Bebas overflow horizontal | `scrollWidth` = 1440, `clientWidth` = 1440 | **LULUS** |
-| **Interaktivitas Toggle Password** | `password` $\leftrightarrow$ `text` | Ikon mata terbuka & tertutup beralih sinkron | **LULUS** |
-| **Template Khusus Update Password** | Form dual-input + tombol merah | Validasi DOM input baru, konfirmasi, & submit | **LULUS** |
+| **Total Transfer Size (CSS + JS)** | Budget <= 120 KB | **23.15 KB** (CSS 19.98 KB + JS 3.16 KB) | **LULUS** |
+| **Kontras Teks Heading (Dark)** | Rasio >= 4.5:1 (WCAG AA) | **18.33:1** (#0f0f12 vs #fafafa) | **LULUS** |
+| **Kontras Teks Muted (Dark)** | Rasio >= 4.5:1 (WCAG AA) | **7.47:1** (#0f0f12 vs #a1a1aa) | **LULUS** |
+| **Kontras Tombol Submit (Dark)** | Rasio >= 4.5:1 (WCAG AA) | **4.83:1** (#dc2626 vs #ffffff) | **LULUS** |
+| **Kontras Teks Heading (Light)** | Rasio >= 4.5:1 (WCAG AA) | **19.90:1** (#ffffff vs #09090b) | **LULUS** |
+| **Kontras Teks Muted (Light)** | Rasio >= 4.5:1 (WCAG AA) | **7.20:1** (#ffffff vs #52525b) | **LULUS** |
+| **Kontras Tombol Submit (Light)** | Rasio >= 4.5:1 (WCAG AA) | **4.83:1** (#dc2626 vs #ffffff) | **LULUS** |
+| **Dual-Panel Desktop (>= 960px)** | Inset visual panel + diagram hub | Terrender sempurna (45% : 55%), pill link aktif | **LULUS** |
+| **Responsivitas Mobile (360x640)** | Bebas overflow horizontal & 100dvh | scrollWidth = 360, clientWidth = 360 | **LULUS** |
+| **Responsivitas Tablet (768x1024)** | Bebas overflow horizontal | scrollWidth = 768, clientWidth = 768 | **LULUS** |
+| **Responsivitas Desktop (1440x900)** | Bebas overflow horizontal | scrollWidth = 1440, clientWidth = 1440 | **LULUS** |
+| **Interaktivitas Toggle Password** | password <-> text | Ikon mata terbuka & tertutup beralih sinkron | **LULUS** |
+| **Cross-Subdomain Theme Sync** | Baca cookie s4ras_theme | Script sinkron s4ras-prefs.<hash>.js tanpa FOUC | **LULUS** |
 
 ---
 
