@@ -28,7 +28,7 @@ Seluruh kluster beroperasi di atas virtualisasi Proxmox VE yang terhubung melalu
   - Pada VM 208, service `pm2-portal.service` dan dua GitHub Actions Runner (`rhaffle87-Portal-SARAS` & `rhaffle87-s4ras`) dimigrasikan ke `User=s4ras`.
 - **Otentikasi SSH Terpadu**:
   - Seluruh public key SSH digabungkan dan dideduplikasi ke `/home/s4ras/.ssh/authorized_keys` dan `/root/.ssh/authorized_keys`.
-  - Password akun sistem Linux (`s4ras` dan `root`) diseragamkan menjadi `itsTELKOM23!`.
+  - Password akun sistem Linux (`s4ras` dan `root`) dikonfigurasi melalui credential manager terpusat (`[REDACTED — simpan di secrets manager]`).
   - Konfigurasi `/etc/ssh/sshd_config` dan direktori `/etc/ssh/sshd_config.d/` diaudit untuk memastikan `PasswordAuthentication yes` dan `PermitRootLogin yes` aktif di seluruh 9 VM.
 
 ---
@@ -101,7 +101,7 @@ Antarmuka WebPhone pada `voip-saras/index.html` (`100.83.239.40:/var/www/html/`)
 - **Eliminasi Cache Edge (SHA-256 Content-Hashing)**: Dibangun skrip otomatisasi `sso-saras/scripts/build-theme-assets.py` yang menghasilkan `s4ras-login.<hash>.css` dan `s4ras-pw.<hash>.js` sehingga update styling tidak tertahan cache 30 hari Cloudflare edge.
 - **Eliminasi Double Input Box & Katup Mata Password**: Menghapus dependensi PatternFly v5 ganda, menggunakan template FTL 1-lapis bersih dengan aturan CSS fallback. Katup toggle password dikendalikan oleh skrip eksternal `s4ras-pw.<hash>.js` yang patuh CSP Keycloak.
 - **Cakupan Dwibahasa & Responsivitas Penuh**: Template aktif diselaraskan dalam bahasa Indonesia dan Inggris (`messages_id.properties` & `messages_en.properties`). Menonaktifkan IdP dummy `oidc`. Ukuran vertikal halaman login (~420px) pas di dalam `100dvh` dari mobile (360x640) hingga desktop (1440x900) tanpa scroll, lulus 12/12 uji Playwright (Commit `cf64501`).
-- **Kredensial & Role Mappers `nathan1`**: Password di-reset permanen ke `Jakarta2004` (`--temporary=false`). Klaim `id.token.claim=true` dan `userinfo.token.claim=true` diaktifkan pada mapper role agar status admin diteruskan utuh ke aplikasi hilir.
+- **Kredensial & Role Mappers `nathan1`**: Password di-reset permanen (`--temporary=false`, kredensial tersimpan di secrets manager). Klaim `id.token.claim=true` dan `userinfo.token.claim=true` diaktifkan pada mapper role agar status admin diteruskan utuh ke aplikasi hilir.
 
 ---
 
@@ -143,8 +143,8 @@ Antarmuka WebPhone pada `voip-saras/index.html` (`100.83.239.40:/var/www/html/`)
 ### Tabel Kredensial & Akses Kluster
 | Cakupan Layanan / Sistem | URL / Endpoint | Username | Password | Catatan Hak Akses |
 | :--- | :--- | :--- | :--- | :--- |
-| **SSH Seluruh 9 VM (200–209)** | `ssh s4ras@<IP_VM>` / `root@<IP_VM>` | `s4ras` / `root` | `itsTELKOM23!` | NOPASSWD:ALL sudo & Docker group |
-| **SSO & Portal (Super Admin 1)** | [https://portal.s4ras.site](https://portal.s4ras.site) | `admin` | `AdminPassword123!` | Lead Architect (Rafli) • SIP Ext 1003 |
-| **SSO & Portal (Super Admin 2)** | [https://portal.s4ras.site](https://portal.s4ras.site) | `nathan1` | `Jakarta2004` | Co-Developer (Nathan) • SIP Ext 1004 |
-| **Jellyfin IPTV Local Admin** | [https://iptv.s4ras.site](https://iptv.s4ras.site) | `admin` | `AdminPassword123!` | Full Dashboard, Metadata & Live TV Admin |
+| **SSH Seluruh 9 VM (200–209)** | `ssh s4ras@<IP_VM>` / `root@<IP_VM>` | `s4ras` / `root` | `[REDACTED — simpan di secrets manager]` | NOPASSWD:ALL sudo & Docker group |
+| **SSO & Portal (Super Admin 1)** | [https://portal.s4ras.site](https://portal.s4ras.site) | `admin` | `[REDACTED — simpan di secrets manager]` | Lead Architect (Rafli) • SIP Ext 1003 |
+| **SSO & Portal (Super Admin 2)** | [https://portal.s4ras.site](https://portal.s4ras.site) | `nathan1` | `[REDACTED — simpan di secrets manager]` | Co-Developer (Nathan) • SIP Ext 1004 |
+| **Jellyfin IPTV Local Admin** | [https://iptv.s4ras.site](https://iptv.s4ras.site) | `admin` | `[REDACTED — simpan di secrets manager]` | Full Dashboard, Metadata & Live TV Admin |
 | **Portal Health Check API** | [https://portal.s4ras.site/api/health/all](https://portal.s4ras.site/api/health/all) | *(Publik GET)* | — | 10 mikroservis real-time (**10/10 Online**) |
